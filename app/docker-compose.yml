@@ -27,15 +27,31 @@ services:
     ports:
       - "3035:3035"
     environment:
-      - FLASK_RUN_PORT=3035
-      - DB_USER=postgres
-      - DB_PASS=postgres
-      - DB_NAME=diario_sono
-      - DB_HOST=db
-      - DB_PORT=5432
+      FLASK_RUN_PORT: 3035
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_NAME: diario_sono
+      DB_HOST: db
+      DB_PORT: 5432
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - diario_sono_net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: diario_sono_frontend
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - REACT_APP_API_URL=http://localhost:3035
+    depends_on:
+      - backend
     networks:
       - diario_sono_net
 
