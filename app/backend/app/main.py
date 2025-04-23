@@ -5,14 +5,15 @@ from app.infra.adapters.database import init_db, db
 from app.domain.models.sleep_diary import SleepDiaryEntry  # noqa: F401
 from app.infra.controller.patient_controller import ns as patient_ns
 from app.infra.controller.doctor_controller import ns as doctor_ns
+from flask_cors import CORS
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://localhost:3001"]}})
     init_db(app)
-
     with app.app_context():
         db.create_all()
 
