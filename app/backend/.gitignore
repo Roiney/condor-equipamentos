@@ -1,0 +1,40 @@
+# Ambientes Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtualenv
+venv/
+ENV/
+env/
+.venv/
+.Python
+
+# Arquivos de configuração
+.env
+*.env
+
+# SQLite
+*.sqlite3
+instance/
+*.db
+
+# Pytest
+.pytest_cache/
+coverage.*
+.cache
+
+# VS Code
+.vscode/
+
+# Jupyter (caso use para análise de dados)
+.ipynb_checkpoints
+
+# Logs
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
