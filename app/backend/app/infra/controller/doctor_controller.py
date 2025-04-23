@@ -6,6 +6,9 @@ from app.application.use_case.get_all_patient_ids import (
 from app.application.use_case.get_patient_entries import (
     GetPatientEntriesUseCase,
 )
+from app.application.use_case.get_patient_statistics import (
+    GetPatientStatisticsUseCase
+)
 from app.infra.repository.sleep_diary_repository import (
     SleepDiaryRepository,
 )
@@ -16,6 +19,9 @@ from app.interface.http.models.patient_response_model import (
     build_patient_list_response_model,
 )
 
+from app.interface.http.models.patient_statistics_response_model import (
+    build_patient_statistics_response_model
+)
 
 ns = Namespace(
     "doctor",
@@ -25,6 +31,7 @@ ns = Namespace(
 # Registra os models no namespace real
 patient_list_response_model = build_patient_list_response_model(ns)
 patient_entries_response_model = build_patient_entries_response_model(ns)
+patient_statistics_response_model = build_patient_statistics_response_model(ns)
 
 
 @ns.route("/patients")
@@ -69,5 +76,23 @@ class PatientEntriesResource(Resource):
             page=page,
             page_size=page_size
         )
+
+        return result, 200
+
+
+@ns.route("/patient/<int:patient_id>/stats")
+class PatientStatisticsResource(Resource):
+    @ns.response(
+        200,
+        "Sleep diary statistics for the patient",
+        model=patient_statistics_response_model
+    )
+    @ns.response(404, "No entries found for the patient")
+    def get(self, patient_id):
+        use_case = GetPatientStatisticsUseCase(SleepDiaryRepository())
+        result = use_case.execute(patient_id=patient_id)
+
+        if result["sleep_duration"] is None:
+            return {"message": "No entries found for this patient."}, 404
 
         return result, 200
