@@ -8,5 +8,8 @@ class CreateSleepEntryUseCase:
         self.repository = repository
 
     def execute(self, data: dict):
-        entity = SleepDiaryFactory.from_dict(data)
-        return self.repository.save(entity)
+        try:
+            entity = SleepDiaryFactory.from_dict(data)
+            return self.repository.save(entity)
+        except Exception as e:
+            raise RuntimeError(f"Failed to create sleep entry: {e}") from e

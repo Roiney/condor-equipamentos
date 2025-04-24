@@ -29,7 +29,6 @@ const PatientPage = () => {
         </button>
       </div>
 
-      {/* Título centralizado */}
       <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
         Sleep Diary Entry
       </h2>
