@@ -1,0 +1,29 @@
+.patient-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.patient-item {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.patient-item:last-child {
+  border-bottom: none;
+}
+
+.patient-item:hover {
+  background-color: #f5f5f5;
+}
+
+.patient-item.selected {
+  background-color: #e0f7fa;
+  font-weight: bold;
+  border-left: 4px solid #00acc1;
+}

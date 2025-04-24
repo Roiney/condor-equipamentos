@@ -22,7 +22,7 @@ sleep_entry_request_model = build_sleep_entry_request_model(ns)
 sleep_entry_response_model = build_sleep_entry_response_model(ns)
 
 
-@ns.route("/")
+@ns.route("")
 class SleepEntryResource(Resource):
     @ns.expect(sleep_entry_request_model)
     @ns.response(
