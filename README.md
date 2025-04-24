@@ -1,92 +1,116 @@
-# **Sleep Diary API**
+# 🛌 Sleep Diary - API + Frontend
 
-Aplicação de backend para o Diário do Sono, desenvolvida para permitir que pacientes registrem dados de sono e médicos acompanhem a evolução.
-<br>
-### Tecnologias
+Aplicação completa de Diário do Sono com frontend em React e backend em Flask.  
+Pacientes podem registrar seus hábitos de sono e médicos acompanham estatísticas e histórico detalhado.
 
-Python 3.10
-Flask + Flask-RESTX
-PostgreSQL (via Docker)
-Pandas (para análise estatística)
-Docker + Docker Compose
-<br>
-### Subindo a aplicação
+---
 
-Pré-requisitos:
-<br>
-```
+
+## Observações
+
+A interface foi construída com um visual **clean e minimalista** por escolha proposital.  
+O foco principal do projeto está na **estrutura de código e organização das camadas**, especialmente no backend, que segue os princípios da **Arquitetura Hexagonal**, com forte aplicação de **Programação Orientada a Objetos (POO)**, separando claramente:
+
+- **Camadas de Domínio** (entidades, DTOs, casos de uso)
+- **Infraestrutura** (repositórios, banco de dados)
+- **Interface HTTP** (controllers com validação e documentação Swagger)
+- **Application Layer** (orquestração dos casos de uso)
+
+Essa separação busca demonstrar boas práticas de desenvolvimento, escalabilidade e facilidade de manutenção.
+
+---
+
+## Tecnologias Utilizadas
+
+### Backend
+- Python 3.10
+- Flask + Flask-RESTX
+- PostgreSQL (via Docker)
+- Pandas (análises estatísticas)
+- Docker + Docker Compose
+
+### Frontend
+- React 18+
+- TypeScript
+- Redux Toolkit
+- Axios
+
+---
+
+##  Como rodar o projeto
+
+### Pré-requisitos
+
+Certifique-se de ter o Docker e Docker Compose instalados:
+
+```bash
+# Requisitos
 Docker
 Docker Compose
 ```
 
-Clone o projeto:
-<br>
-```
+### Clone o repositório
+
+```bash
 git clone <repo-url>
 cd app
 ```
-<br>
-<br>
-Rode os containers:
 
-<br>
-```
+### Rode os containers
+
+```bash
 docker-compose up --build
 ```
 
-Acesse a documentação da API:
+---
 
-<br>
-<br>
-```
-[http://localhost:3035/docs](http://localhost:3035/docs)
-```
+##  Acessos
 
-###  Endpoints disponíveis
+- **Frontend:** http://localhost:3001
+- **API Docs:** http://localhost:3035/docs
 
-#### Paciente
+---
 
-POST /patient/ – Registrar entrada no diário
+##  Endpoints disponíveis (via Swagger)
 
-Exemplo de payload:
-<br>
-```
+### Paciente
+
+`POST /patient/` – Registrar nova entrada no diário de sono
+
+**Payload de exemplo:**
+
+```json
 {
-"patient_id": 1,
-"sleep_duration": 7.5,
-"bedtime": "22:30",
-"awakenings": 1,
-"medication": false
+  "patient_id": 1,
+  "sleep_duration": 7.5,
+  "bedtime": "22:30",
+  "awakenings": 1,
+  "medication": false
 }
 ```
 
-#### Médico
+### Médico
 
-GET /doctor/patients – Listar IDs de pacientes com entradas
+- `GET /doctor/patients` – Listar IDs únicos de pacientes
+- `GET /doctor/patient/<id>/entries` – Histórico do paciente
+- `GET /doctor/patient/<id>/stats` – Estatísticas gerais de sono
 
-GET /doctor/patient//entries – Listar entradas de um paciente
+---
 
-<br>
-GET /doctor/patient//stats – Estatísticas de sono e despertares
+## Banco de dados
 
-<br>
-### Banco de dados
+**PostgreSQL (rodando no container `diario_sono_postgres`)**
 
-Postgres está rodando no container diario\_sono\_postgres
+- Porta externa: `6543`
+- Banco: `diario_sono`
+- Usuário: `postgres`
+- Senha: `postgres`
 
-Porta externa: 6543
+---
 
-Credenciais padrão:
-<br>
-```
-DB: diario_sono
-User: postgres
-Password: postgres
-```
-<br>
-📁 Estrutura resumida
-<br>
-```
+##  Estrutura de Diretórios
+
+```bash
 app/
 ├── backend/
 │   ├── app/
@@ -97,5 +121,41 @@ app/
 │   │   └── main.py
 │   ├── requirements.txt
 │   └── run.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── view/
+│   │   ├── api/
+│   │   └── App.tsx
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   └── package.json
 ├── docker-compose.yml
 ```
+
+---
+
+## Funcionalidades
+
+- Registro e listagem de entradas do paciente
+- Estatísticas com média, mínimo, máximo e desvio padrão
+- Gráficos de evolução
+- Interface separada para paciente e médico
+- Design responsivo com Tailwind + Styled Components
+
+---
+
+### 📸 Visual da Aplicação
+
+#### Página Inicial
+![Página Inicial](./assets/home.png)
+
+#### Formulário de Paciente
+![Formulário de Paciente](./assets/patient-form.png)
+
+#### Lista de Pacientes
+![Lista de Pacientes](./assets/patient-list.png)
+
+#### Detalhes do Paciente
+![Detalhes do Paciente](./assets/patient-details.png)
+
