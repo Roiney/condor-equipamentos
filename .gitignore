@@ -1,0 +1,2 @@
+# Ignorar dados persistidos do Postgres
+app/pgdata/
