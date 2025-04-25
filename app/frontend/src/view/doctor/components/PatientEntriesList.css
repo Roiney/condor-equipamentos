@@ -1,41 +1,146 @@
+/* Entries Container */
 .patient-entries-container {
-  padding: 1.5rem;
-  background-color: #fefefe;
+  background-color: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
 }
 
-.patient-entries-container h3 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
+/* Section Title */
+.section-title {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
   color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
+/* Table Responsive Wrapper */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Entries Table */
 .entries-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
 }
 
-.entries-table th,
-.entries-table td {
-  padding: 0.75rem 1rem;
+.entries-table th {
+  background-color: #f5f7ff;
+  color: #5c6bc0;
+  font-weight: 600;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid #e8eaf6;
 }
 
-.entries-table th {
-  background-color: #f4f4f4;
-  font-weight: 600;
+.entries-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eee;
   color: #444;
 }
 
-.entries-table tr:hover {
-  background-color: #f9f9f9;
-  transition: background-color 0.2s ease-in-out;
+.entries-table tr:last-child td {
+  border-bottom: none;
 }
 
-.entries-table td:last-child {
-  text-transform: capitalize;
+.entries-table tr:hover td {
+  background-color: #f9faff;
+}
+
+/* Medication Badge */
+.medication-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.medication-badge.yes {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.medication-badge.no {
+  background-color: #f5f5f5;
+  color: #757575;
+}
+
+/* Loading State */
+.entries-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.entries-loading .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(92, 107, 192, 0.2);
+  border-radius: 50%;
+  border-top-color: #5c6bc0;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+.entries-loading p {
+  color: #666;
+}
+
+/* Empty State */
+.entries-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #666;
+  text-align: center;
+}
+
+.entries-empty svg {
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .patient-entries-container {
+    padding: 1rem;
+  }
+
+  .entries-table th,
+  .entries-table td {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .entries-table {
+    font-size: 0.8rem;
+  }
+
+  .entries-table th,
+  .entries-table td {
+    padding: 0.5rem;
+  }
 }

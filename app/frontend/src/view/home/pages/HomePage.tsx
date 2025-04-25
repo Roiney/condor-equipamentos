@@ -1,3 +1,5 @@
+'use client';
+
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
@@ -6,11 +8,23 @@ const HomePage = () => {
 
   return (
     <div className="home-container">
-      <h1>Sleep Diary</h1>
-      <p>Who are you?</p>
-      <div className="buttons">
-        <button onClick={() => navigate('/patient')}>I'm a Patient</button>
-        <button onClick={() => navigate('/doctor')}>I'm a Doctor</button>
+      <div className="home-content">
+        <h1 className="home-title">Sleep Diary</h1>
+        <p className="home-subtitle">Who are you?</p>
+        <div className="home-buttons">
+          <button
+            className="home-button patient-button"
+            onClick={() => navigate('/patient')}
+          >
+            I'm a Patient
+          </button>
+          <button
+            className="home-button doctor-button"
+            onClick={() => navigate('/doctor')}
+          >
+            I'm a Doctor
+          </button>
+        </div>
       </div>
     </div>
   );

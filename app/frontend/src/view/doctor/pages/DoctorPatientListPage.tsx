@@ -1,7 +1,9 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch, RootState } from 'store';
+import type { AppDispatch, RootState } from 'store';
 import { fetchPatients } from '../reducer';
 import './DoctorPatientListPage.css';
 
@@ -36,71 +38,168 @@ const DoctorPatientListPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '2rem auto' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          marginBottom: '1rem',
-        }}
-      >
-        <button
-          onClick={() => navigate('/')}
-          style={{
-            padding: '0.5rem 1rem',
-            backgroundColor: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
-        >
+    <div className="doctor-page-container">
+      <div className="back-button-container">
+        <button onClick={() => navigate('/')} className="back-button">
           ← Home
         </button>
       </div>
 
-      {/* Título centralizado */}
-      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Patients</h2>
+      <h2 className="page-title">Patients</h2>
 
-      {loading && <p>Loading...</p>}
-
-      {error && typeof error === 'string' && (
-        <p style={{ color: 'red' }}>{error}</p>
+      {loading && (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p className="loading-text">Loading patients...</p>
+        </div>
       )}
 
-      {error &&
-        typeof error === 'object' &&
-        Object.entries(error).map(([key, messages]) => (
-          <p key={key} style={{ color: 'red' }}>
-            {(messages as string[]).join(', ')}
-          </p>
-        ))}
+      {error && (
+        <div className="error-container">
+          {typeof error === 'string' ? (
+            <div className="error-message">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>{error}</span>
+            </div>
+          ) : (
+            Object.entries(error).map(([key, messages]) => (
+              <div key={key} className="error-message">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span>{(messages as string[]).join(', ')}</span>
+              </div>
+            ))
+          )}
+        </div>
+      )}
 
-      <ul className="patient-list">
-        {patient_ids.map((id) =>
-          typeof id === 'number' ? (
-            <li
-              key={id}
-              className={`patient-item ${selectedId === id ? 'selected' : ''}`}
-              onClick={() => handleSelect(id)}
+      {!loading && patient_ids.length === 0 && !error && (
+        <div className="empty-state">
+          <p>No patients found</p>
+        </div>
+      )}
+
+      {patient_ids.length > 0 && (
+        <ul className="patient-list">
+          {patient_ids.map((id) =>
+            typeof id === 'number' ? (
+              <li
+                key={id}
+                className={`patient-item ${selectedId === id ? 'selected' : ''}`}
+                onClick={() => handleSelect(id)}
+              >
+                <div className="patient-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
+                <span className="patient-text">Patient ID: {id}</span>
+                <div className="patient-arrow">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+              </li>
+            ) : null,
+          )}
+        </ul>
+      )}
+
+      {patient_ids.length > 0 && (
+        <div className="pagination-container">
+          <button
+            className="pagination-button"
+            onClick={handlePrevPage}
+            disabled={page === 1}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              Patient ID: {id}
-            </li>
-          ) : null,
-        )}
-      </ul>
-
-      <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-        <button onClick={handlePrevPage} disabled={page === 1}>
-          Previous
-        </button>
-        <span style={{ margin: '0 1rem' }}>
-          Page {page} of {Math.ceil(total / page_size)}
-        </span>
-        <button onClick={handleNextPage} disabled={page * page_size >= total}>
-          Next
-        </button>
-      </div>
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Previous
+          </button>
+          <span className="pagination-info">
+            Page {page} of {Math.ceil(total / page_size)}
+          </span>
+          <button
+            className="pagination-button"
+            onClick={handleNextPage}
+            disabled={page * page_size >= total}
+          >
+            Next
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
