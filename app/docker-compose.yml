@@ -28,6 +28,7 @@ services:
       - "3035:3035"
     environment:
       FLASK_RUN_PORT: 3035
+      FLASK_RUN_HOST: 0.0.0.0
       DB_USER: postgres
       DB_PASS: postgres
       DB_NAME: diario_sono

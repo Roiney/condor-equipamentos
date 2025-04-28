@@ -14,14 +14,7 @@ def create_app():
     app.config.from_object(Config)
 
     # Habilita CORS para múltiplas origens (dev frontend em 3000 e 3001)
-    CORS(app, resources={
-        r"/*": {
-            "origins": [
-                "http://localhost:3000",
-                "http://localhost:3001"
-            ]
-        }
-    })
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
     init_db(app)
 
